@@ -1,67 +1,79 @@
 {
-  "remarks": "blackice FF",
+  "remarks": "Blackice FF",
   "log": {
-    "access": "",
-    "error": "",
     "loglevel": "warning"
+  },
+  "dns": {
+    "hosts": {},
+    "servers": [
+      "https://94.140.14.14/dns-query"
+    ],
+    "tag": "dns"
   },
   "inbounds": [
     {
-      "tag": "socks",
       "port": 10808,
-      "listen": "127.0.0.1",
       "protocol": "socks",
+      "settings": {
+        "auth": "noauth",
+        "udp": true,
+        "userLevel": 8
+      },
       "sniffing": {
-        "enabled": true,
         "destOverride": [
           "http",
           "tls"
         ],
-        "routeOnly": false
+        "enabled": true,
+        "routeOnly": true
       },
-      "settings": {
-        "auth": "noauth",
-        "udp": true,
-        "allowTransparent": false
-      }
+      "tag": "socks-in"
     },
     {
-      "tag": "http",
       "port": 10809,
-      "listen": "127.0.0.1",
       "protocol": "http",
+      "settings": {
+        "auth": "noauth",
+        "udp": true,
+        "userLevel": 8
+      },
       "sniffing": {
-        "enabled": true,
         "destOverride": [
           "http",
           "tls"
         ],
-        "routeOnly": false
+        "enabled": true,
+        "routeOnly": true
       },
+      "tag": "http-in"
+    },
+    {
+      "listen": "127.0.0.1",
+      "port": 10853,
+      "protocol": "dokodemo-door",
       "settings": {
-        "auth": "noauth",
-        "udp": true,
-        "allowTransparent": false
-      }
+        "address": "1.1.1.1",
+        "network": "tcp,udp",
+        "port": 53
+      },
+      "tag": "dns-in"
     }
   ],
   "outbounds": [
     {
-      "tag": "proxy",
       "protocol": "vless",
       "settings": {
         "vnext": [
           {
-            "address": "shrill-sun-24a5.15tbfree.workers.dev",
+            "address": "blackice-d5p.pages.dev",
             "port": 443,
             "users": [
               {
-                "id": "84bc01ec-1652-4ba6-9522-d82c3cd4323c",
-                "alterId": 0,
-                "email": "t@t.tt",
-                "security": "auto",
                 "encryption": "none",
-                "flow": ""
+                "flow": "",
+                "id": "89b3cbba-e6ac-485a-9481-976a0415eab9",
+                "level": 8,
+                "security": "auto"
               }
             ]
           }
@@ -70,31 +82,47 @@
       "streamSettings": {
         "network": "ws",
         "security": "tls",
+        "sockopt": {
+          "tcpKeepAliveIdle": 100,
+          "tcpNoDelay": true
+        },
         "tlsSettings": {
           "allowInsecure": false,
-          "serverName": "ShrILL-SUN-24A5.15TbfREE.WoRKerS.DEv",
+          "fingerprint": "chrome",
           "alpn": [
             "h2",
             "http/1.1"
           ],
-          "fingerprint": "chrome",
-          "show": false
+          "serverName": "bLacKICe-D5p.pAGEs.dev"
         },
         "wsSettings": {
-          "path": "?ed=2560",
           "headers": {
-            "Host": "ShrILL-SUN-24A5.15TbfREE.WoRKerS.DEv"
-          }
-        },
-        "sockopt": {
-          "dialerProxy": "fragment",
-          "tcpKeepAliveIdle": 100,
-          "mark": 255,
-          "tcpNoDelay": true
+            "Host": "blaCKice-d5P.pAGEs.DEV"
+          },
+          "path": "/zGWPku9RWit4rw9U?ed=2560"
         }
-      }
+      },
+      "tag": "proxy"
     },
-  {
+    {
+      "protocol": "dns",
+      "tag": "dns-out"
+    },
+    {
+      "protocol": "freedom",
+      "settings": {},
+      "tag": "direct"
+    },
+    {
+      "protocol": "blackhole",
+      "settings": {
+        "response": {
+          "type": "http"
+        }
+      },
+      "tag": "block"
+    },
+    {
       "tag": "frag_1",
       "protocol": "freedom",
       "settings": {
@@ -346,57 +374,64 @@
         "tag": "proxy"
       }
     }
-    {
-      "tag": "fragment",
-      "protocol": "freedom",
-      "settings": {
-        "domainStrategy": "AsIs",
-        "fragment": {
-          "packets": "tlshello",
-          "length": "10-15",
-          "interval": "2-5"
-        }
-      },
-      "streamSettings": {
-        "sockopt": {
-          "tcpNoDelay": true,
-          "tcpKeepAliveIdle": 100
-        }
-      }
-    },
-    {
-      "tag": "direct",
-      "protocol": "freedom",
-      "settings": {}
-    },
-    {
-      "tag": "block",
-      "protocol": "blackhole",
-      "settings": {
-        "response": {
-          "type": "http"
-        }
-      }
-    }
   ],
+  "policy": {
+    "levels": {
+      "8": {
+        "connIdle": 300,
+        "downlinkOnly": 1,
+        "handshake": 4,
+        "uplinkOnly": 1
+      }
+    },
+    "system": {
+      "statsOutboundUplink": true,
+      "statsOutboundDownlink": true
+    }
+  },
   "routing": {
-    "domainStrategy": "AsIs",
+    "domainStrategy": "IPIfNonMatch",
     "rules": [
       {
-        "type": "field",
         "inboundTag": [
-          "api"
+          "dns-in"
         ],
-        "outboundTag": "api",
-        "enabled": true
+        "outboundTag": "dns-out",
+        "type": "field"
       },
       {
-        "id": "5627785659655799759",
+        "ip": [
+          "8.8.8.8"
+        ],
+        "outboundTag": "direct",
+        "port": "53",
+        "type": "field"
+      },
+      {
+        "balancerTag": "all",
         "type": "field",
-        "port": "0-65535",
-        "outboundTag": "proxy",
-        "enabled": true
+        "network": "tcp,udp"
+      }
+    ],
+    "balancers": [
+      {
+        "tag": "all",
+        "selector": [
+          "frag"
+        ],
+        "strategy": {
+          "type": "leastPing"
+        }
       }
     ]
-  }
+  },
+  "observatory": {
+    "probeInterval": "30s",
+    "probeURL": "https://api.github.com/_private/browser/stats",
+    "subjectSelector": [
+      "frag"
+    ],
+    "EnableConcurrency": true
+  },
+  "stats": {}
 }
