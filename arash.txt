@@ -1,1 +1,1 @@
-vless://8e3054f9-4470-4e57-9e6e-ed46e10ed73b@backUp-viruses-feEling-teRritories.trycloudflare.com:8443?encryption=none&security=tls&sni=bAckup-virUses-feelIng-terriTories.trycloudflare.com&type=ws&host=baCkup-vIruses-feeliNg-territories.trycloudfLare.com&path=%2F#vlssarg-u140arash
+vless://89b3cbba-e6ac-485a-9481-976a0415eab9@www.speedtest.net:443?path=%2F58VtBoCXkbFls61G%3Fed%3D2560&security=tls&encryption=none&alpn=h2,http/1.1&host=BLACKice-d5P.pAgEs.deV&fp=randomized&type=ws&sni=bLAcKICe-D5p.paGEs.deV#Domain_2+%3A+443
