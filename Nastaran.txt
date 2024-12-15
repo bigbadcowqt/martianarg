@@ -1,0 +1,367 @@
+{
+  "log": {
+    "level": "warn",
+    "output": "box.log",
+    "timestamp": true
+  },
+  "dns": {
+    "servers": [
+      {
+        "tag": "dns-remote",
+        "address": "https://208.67.222.222/dns-query",
+        "address_resolver": "dns-direct"
+      },
+      {
+        "tag": "dns-trick-direct",
+        "address": "https://sky.rethinkdns.com/",
+        "detour": "direct-fragment"
+      },
+      {
+        "tag": "dns-direct",
+        "address": "1.1.1.1",
+        "address_resolver": "dns-local",
+        "detour": "direct"
+      },
+      {
+        "tag": "dns-local",
+        "address": "local",
+        "detour": "direct"
+      },
+      {
+        "tag": "dns-block",
+        "address": "rcode://success"
+      }
+    ],
+    "rules": [
+      {
+        "domain": [
+          "[2a06:98c1:3120::3]",
+          "[2a06:98c1:3121::3]",
+          "nastaraaannnfrosty-paper-602c.dopori8238.workers.dev",
+          "www.speedtest.net"
+        ],
+        "server": "dns-direct"
+      },
+      {
+        "domain": "cp.cloudflare.com",
+        "server": "dns-remote",
+        "rewrite_ttl": 3000
+      }
+    ],
+    "final": "dns-remote",
+    "static_ips": {
+      "sky.rethinkdns.com": [
+        "104.17.148.22",
+        "104.17.147.22",
+        "2a06:98c1:3120::6",
+        "2a06:98c1:3121::6",
+        "188.114.96.6",
+        "188.114.97.6"
+      ]
+    },
+    "independent_cache": true
+  },
+  "inbounds": [
+    {
+      "type": "tun",
+      "tag": "tun-in",
+      "mtu": 9000,
+      "inet4_address": "172.19.0.1/28",
+      "auto_route": true,
+      "strict_route": true,
+      "endpoint_independent_nat": true,
+      "stack": "mixed",
+      "sniff": true,
+      "sniff_override_destination": true
+    },
+    {
+      "type": "mixed",
+      "tag": "mixed-in",
+      "listen": "127.0.0.1",
+      "listen_port": 12334,
+      "sniff": true,
+      "sniff_override_destination": true
+    },
+    {
+      "type": "direct",
+      "tag": "dns-in",
+      "listen": "127.0.0.1",
+      "listen_port": 16450
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "selector",
+      "tag": "select",
+      "outbounds": [
+        "auto",
+        "ns1",
+        "ns2",
+        "ns3",
+        "ns4",
+        "ns5",
+        "ns6"
+      ],
+      "default": "auto"
+    },
+    {
+      "type": "urltest",
+      "tag": "auto",
+      "outbounds": [
+        "ns1",
+        "ns2",
+        "ns3",
+        "ns4",
+        "ns5",
+        "ns6"
+      ],
+      "url": "http://connectivitycheck.gstatic.com/generate_204",
+      "interval": "10m0s",
+      "idle_timeout": "1h40m0s"
+    },
+    {
+      "type": "vless",
+      "tag": "ns1",
+      "domain_strategy": "prefer_ipv4",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "100-200",
+        "sleep": "1-1"
+      },
+      "server": "nastaraaannnfrosty-paper-602c.dopori8238.workers.dev",
+      "server_port": 443,
+      "uuid": "61453e6c-8f0d-4988-a9c5-ea24a5f422f5",
+      "tls": {
+        "enabled": true,
+        "server_name": "naStARaAaNNNFROSTy-papER-602C.doPoRI8238.WOrKers.DeV",
+        "alpn": "http/1.1",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "randomized"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/PHQLcSkf8j8Fs969",
+        "headers": {
+          "Host": "nastaraaannnfrosty-paper-602c.dopori8238.workers.dev"
+        },
+        "max_early_data": 2560,
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "ns2",
+      "domain_strategy": "prefer_ipv4",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "100-200",
+        "sleep": "1-1"
+      },
+      "server": "www.speedtest.net",
+      "server_port": 443,
+      "uuid": "61453e6c-8f0d-4988-a9c5-ea24a5f422f5",
+      "tls": {
+        "enabled": true,
+        "server_name": "nasTArAAAnNNFROsTy-PapER-602c.DOpORI8238.workErS.dEv",
+        "alpn": "http/1.1",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "randomized"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/DnELDU2aS3WC0vcV",
+        "headers": {
+          "Host": "nastaraaannnfrosty-paper-602c.dopori8238.workers.dev"
+        },
+        "max_early_data": 2560,
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "ns3",
+      "domain_strategy": "prefer_ipv4",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "100-200",
+        "sleep": "1-1"
+      },
+      "server": "188.114.97.3",
+      "server_port": 443,
+      "uuid": "61453e6c-8f0d-4988-a9c5-ea24a5f422f5",
+      "tls": {
+        "enabled": true,
+        "server_name": "NaStARAAANnnFROsty-PapER-602C.DoPoRI8238.wORkerS.dEV",
+        "alpn": "http/1.1",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "randomized"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/ZzHerLBlIHRLwEFa",
+        "headers": {
+          "Host": "nastaraaannnfrosty-paper-602c.dopori8238.workers.dev"
+        },
+        "max_early_data": 2560,
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "ns4",
+      "domain_strategy": "prefer_ipv4",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "100-200",
+        "sleep": "1-1"
+      },
+      "server": "188.114.96.3",
+      "server_port": 443,
+      "uuid": "61453e6c-8f0d-4988-a9c5-ea24a5f422f5",
+      "tls": {
+        "enabled": true,
+        "server_name": "NastAraaaNNnFroSTy-Paper-602C.DoPoRI8238.wOrKeRS.dEv",
+        "alpn": "http/1.1",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "randomized"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/8LsbyerE3UTt5UDB",
+        "headers": {
+          "Host": "nastaraaannnfrosty-paper-602c.dopori8238.workers.dev"
+        },
+        "max_early_data": 2560,
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "ns5",
+      "domain_strategy": "prefer_ipv4",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "100-200",
+        "sleep": "1-1"
+      },
+      "server": "[2a06:98c1:3120::3]",
+      "server_port": 443,
+      "uuid": "61453e6c-8f0d-4988-a9c5-ea24a5f422f5",
+      "tls": {
+        "enabled": true,
+        "server_name": "nAstaRaaaNNnFrOSty-paPeR-602C.DOPOrI8238.workeRs.DeV",
+        "alpn": "http/1.1",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "randomized"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/t8NdGjbrSrffSxky",
+        "headers": {
+          "Host": "nastaraaannnfrosty-paper-602c.dopori8238.workers.dev"
+        },
+        "max_early_data": 2560,
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "ns6",
+      "domain_strategy": "prefer_ipv4",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "100-200",
+        "sleep": "1-1"
+      },
+      "server": "[2a06:98c1:3121::3]",
+      "server_port": 443,
+      "uuid": "61453e6c-8f0d-4988-a9c5-ea24a5f422f5",
+      "tls": {
+        "enabled": true,
+        "server_name": "NaSTArAAaNNnfrosty-pAPer-602C.DOporI8238.WORkeRs.Dev",
+        "alpn": "http/1.1",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "randomized"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/MeyAEIa2RBLneeFb",
+        "headers": {
+          "Host": "nastaraaannnfrosty-paper-602c.dopori8238.workers.dev"
+        },
+        "max_early_data": 2560,
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "dns",
+      "tag": "dns-out"
+    },
+    {
+      "type": "direct",
+      "tag": "direct"
+    },
+    {
+      "type": "direct",
+      "tag": "direct-fragment",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      }
+    },
+    {
+      "type": "direct",
+      "tag": "bypass"
+    },
+    {
+      "type": "block",
+      "tag": "block"
+    }
+  ],
+  "route": {
+    "rules": [
+      {
+        "inbound": "dns-in",
+        "outbound": "dns-out"
+      },
+      {
+        "port": 53,
+        "outbound": "dns-out"
+      },
+      {
+        "clash_mode": "Direct",
+        "outbound": "direct"
+      },
+      {
+        "clash_mode": "Global",
+        "outbound": "select"
+      }
+    ],
+    "final": "select",
+    "auto_detect_interface": true,
+    "override_android_vpn": true
+  },
+  "experimental": {
+    "cache_file": {
+      "enabled": true,
+      "path": "clash.db"
+    },
+    "clash_api": {
+      "external_controller": "127.0.0.1:16756",
+      "secret": "ZW4FNBhKm0xP6k2m"
+    }
+  }
+}
