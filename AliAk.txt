@@ -1,5 +1,5 @@
 {
-  "remarks": "💦 19 - Trojan F - IPv4 : 8443",
+  "remarks": "همراه اول",
   "log": {
     "loglevel": "warning"
   },
