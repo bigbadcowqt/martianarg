@@ -1,5 +1,5 @@
 {
-  "remarks": "sohard",
+  "remarks": "mmdjvd",
   "log": {
     "access": "",
     "error": "",
@@ -56,7 +56,7 @@
             "port": 8443,
             "users": [
               {
-                "id": "969b8db7-d899-4ebb-877e-c09d5d66cc0e",
+                "id": "60216752-c119-44bc-bd22-8bf9e912d0fa",
                 "alterId": 0,
                 "email": "t@t.tt",
                 "security": "auto",
@@ -72,7 +72,7 @@
         "security": "tls",
         "tlsSettings": {
           "allowInsecure": false,
-          "serverName": "NAil-GERALD-Urge-BeDRoOMS.TrYcLOUDfLAre.cOM",
+          "serverName": "ExampLEs-gReETInG-LakEs-gANG.TryCLoUDFlaRe.cOm",
           "alpn": [
             "h2",
             "http/1.1"
@@ -81,9 +81,9 @@
           "show": false
         },
         "wsSettings": {
-          "path": "969b8db7-d899-4ebb-877e-c09d5d66cc0e-vm",
+          "path": "60216752-c119-44bc-bd22-8bf9e912d0fa-vm?ed=2560",
           "headers": {
-            "Host": "NAil-GERALD-Urge-BeDRoOMS.TrYcLOUDfLAre.cOM"
+            "Host": "ExampLEs-gReETInG-LakEs-gANG.TryCLoUDFlaRe.cOm"
           }
         },
         "sockopt": {
