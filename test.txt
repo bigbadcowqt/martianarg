@@ -1,4 +1,10 @@
-===[ {
+[
+  {
+    "remarks": "💦 83 - Trojan F - IPv4 : 2096",
+    "log": {
+      "loglevel": "warning"
+    },
+    {
   "remarks": "💦 72 - Trojan F - IPv4 : 2087",
   "log": {
     "loglevel": "warning"
@@ -175,10 +181,14 @@
     ]
   },
   "stats": {}
-} ]===
-{ این کانفیگ رو قبلاً دادی... }
-
-===[ {
+}
+  },
+  {
+    "remarks": "💦 71 - VLESS F - IPv4 : 2087",
+    "log": {
+      "loglevel": "warning"
+    },
+    {
   "remarks": "💦 71 - VLESS F - IPv4 : 2087",
   "log": {
     "loglevel": "warning"
@@ -360,10 +370,14 @@
     ]
   },
   "stats": {}
-} ]===
-{ اینم کانفیگ دوم که فرستادی... }
-
-===[ {
+}
+  },
+  {
+    "remarks": "💦 72 - Trojan F - IPv4 : 2087",
+    "log": {
+      "loglevel": "warning"
+    },
+    {
   "remarks": "💦 83 - Trojan F - IPv4 : 2096",
   "log": {
     "loglevel": "warning"
@@ -540,5 +554,6 @@
     ]
   },
   "stats": {}
-} ]===
-{ کانفیگ سوم هم همینجا... }
+}
+  }
+]
