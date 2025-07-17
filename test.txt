@@ -164,7 +164,7 @@
     },
     "stats": {}
   },
-  {
+{
     "remarks": "💦 71 - VLESS F - IPv4 : 2087",
     "log": {
       "loglevel": "warning"
@@ -307,4 +307,31 @@
         {
           "inboundTag": ["socks-in"],
           "port": 53,
-         [43dcd9a7-70db-4a1f-b0ae-981daa162054](https://github.com/Sdator/JS_snippets/tree/82150d932ccf215fab069c38a55403837ac11192/%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5%2FScript%20snippet%20%2344.js?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "1")[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://github.com/magictomagic/iron/tree/6da53e84f173227a33efb429028d52cfa212b611/content%2Fpost%2FLinux-V2ray-proxy-configuration.md?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "2")[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://github.com/krot357/CN-V2ray-NewCore/tree/cfbff7040a488e84d793829f453940b7e8a23b11/CN-v2ray-newCore-install.sh?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "3")[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://github.com/Chronos-LYH/v2ray-subscription/tree/fcd29403182ebbe8fc395cdf3769c84b72dc248d/v2ray-config-generator.py?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "4")
+          "outboundTag": "dns-out",
+          "type": "field"
+        },
+        {
+          "inboundTag": ["remote-dns"],
+          "outboundTag": "proxy",
+          "type": "field"
+        },
+        {
+          "inboundTag": ["dns"],
+          "outboundTag": "direct",
+          "type": "field"
+        },
+        {
+          "network": "udp",
+          "outboundTag": "block",
+          "type": "field"
+        },
+        {
+          "network": "tcp",
+          "outboundTag": "proxy",
+          "type": "field"
+        }
+      ]
+    },
+    "stats": {}
+  }
+]
