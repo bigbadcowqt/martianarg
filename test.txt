@@ -1,68 +1,247 @@
-[
-{
-  "remarks": "cctv",
+===[ {
+  "remarks": "💦 72 - Trojan F - IPv4 : 2087",
   "log": {
-    "access": "",
-    "error": "",
     "loglevel": "warning"
+  },
+  "dns": {
+    "hosts": {
+      "d.adguard-dns.com": [
+        "94.140.14.49",
+        "2a10:50c0::ded:ff"
+      ]
+    },
+    "servers": [
+      {
+        "address": "https://d.adguard-dns.com/dns-query/258d2a76",
+        "tag": "remote-dns"
+      }
+    ],
+    "queryStrategy": "UseIP",
+    "tag": "dns"
   },
   "inbounds": [
     {
-      "tag": "socks",
       "port": 10808,
-      "listen": "127.0.0.1",
       "protocol": "socks",
+      "settings": {
+        "auth": "noauth",
+        "udp": true,
+        "userLevel": 8
+      },
       "sniffing": {
-        "enabled": true,
         "destOverride": [
           "http",
           "tls"
         ],
-        "routeOnly": false
+        "enabled": true,
+        "routeOnly": true
       },
-      "settings": {
-        "auth": "noauth",
-        "udp": true,
-        "allowTransparent": false
-      }
+      "tag": "socks-in"
     },
     {
-      "tag": "http",
-      "port": 10809,
-      "listen": "127.0.0.1",
-      "protocol": "http",
-      "sniffing": {
-        "enabled": true,
-        "destOverride": [
-          "http",
-          "tls"
-        ],
-        "routeOnly": false
-      },
+      "port": 10853,
+      "protocol": "dokodemo-door",
       "settings": {
-        "auth": "noauth",
-        "udp": true,
-        "allowTransparent": false
-      }
+        "address": "1.1.1.1",
+        "network": "tcp,udp",
+        "port": 53
+      },
+      "tag": "dns-in"
     }
   ],
   "outbounds": [
     {
-      "tag": "proxy",
-      "protocol": "vmess",
+      "protocol": "trojan",
+      "settings": {
+        "servers": [
+          {
+            "address": "104.21.112.1",
+            "port": 2087,
+            "password": ")|GBp(tptN_|",
+            "level": 8
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "ws",
+        "security": "tls",
+        "sockopt": {
+          "dialerProxy": "fragment"
+        },
+        "wsSettings": {
+          "host": "ghk--43pm-2eze1ys72uz063xmun69be.pages.dev",
+          "path": "/trYZU3k0u8jPKIujtf?ed=2560"
+        },
+        "tlsSettings": {
+          "allowInsecure": false,
+          "fingerprint": "randomized",
+          "alpn": [
+            "http/1.1"
+          ],
+          "serverName": "Ghk--43pm-2EzE1ys72Uz063xmUN69BE.PagEs.deV"
+        }
+      },
+      "tag": "proxy"
+    },
+    {
+      "tag": "fragment",
+      "protocol": "freedom",
+      "settings": {
+        "fragment": {
+          "packets": "tlshello",
+          "length": "100-200",
+          "interval": "1-1"
+        },
+        "domainStrategy": "UseIPv4v6"
+      }
+    },
+    {
+      "protocol": "dns",
+      "tag": "dns-out"
+    },
+    {
+      "protocol": "freedom",
+      "settings": {
+        "domainStrategy": "UseIP"
+      },
+      "tag": "direct"
+    },
+    {
+      "protocol": "blackhole",
+      "settings": {
+        "response": {
+          "type": "http"
+        }
+      },
+      "tag": "block"
+    }
+  ],
+  "policy": {
+    "levels": {
+      "8": {
+        "connIdle": 300,
+        "downlinkOnly": 1,
+        "handshake": 4,
+        "uplinkOnly": 1
+      }
+    },
+    "system": {
+      "statsOutboundUplink": true,
+      "statsOutboundDownlink": true
+    }
+  },
+  "routing": {
+    "domainStrategy": "IPIfNonMatch",
+    "rules": [
+      {
+        "inboundTag": [
+          "dns-in"
+        ],
+        "outboundTag": "dns-out",
+        "type": "field"
+      },
+      {
+        "inboundTag": [
+          "socks-in"
+        ],
+        "port": 53,
+        "outboundTag": "dns-out",
+        "type": "field"
+      },
+      {
+        "inboundTag": [
+          "remote-dns"
+        ],
+        "outboundTag": "proxy",
+        "type": "field"
+      },
+      {
+        "inboundTag": [
+          "dns"
+        ],
+        "outboundTag": "direct",
+        "type": "field"
+      },
+      {
+        "network": "udp",
+        "outboundTag": "block",
+        "type": "field"
+      },
+      {
+        "network": "tcp",
+        "outboundTag": "proxy",
+        "type": "field"
+      }
+    ]
+  },
+  "stats": {}
+} ]===
+{ این کانفیگ رو قبلاً دادی... }
+
+===[ {
+  "remarks": "💦 71 - VLESS F - IPv4 : 2087",
+  "log": {
+    "loglevel": "warning"
+  },
+  "dns": {
+    "hosts": {
+      "d.adguard-dns.com": [
+        "94.140.14.49",
+        "2a10:50c0::ded:ff"
+      ]
+    },
+    "servers": [
+      {
+        "address": "https://d.adguard-dns.com/dns-query/258d2a76",
+        "tag": "remote-dns"
+      }
+    ],
+    "queryStrategy": "UseIP",
+    "tag": "dns"
+  },
+  "inbounds": [
+    {
+      "port": 10808,
+      "protocol": "socks",
+      "settings": {
+        "auth": "noauth",
+        "udp": true,
+        "userLevel": 8
+      },
+      "sniffing": {
+        "destOverride": [
+          "http",
+          "tls"
+        ],
+        "enabled": true,
+        "routeOnly": true
+      },
+      "tag": "socks-in"
+    },
+    {
+      "port": 10853,
+      "protocol": "dokodemo-door",
+      "settings": {
+        "address": "1.1.1.1",
+        "network": "tcp,udp",
+        "port": 53
+      },
+      "tag": "dns-in"
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "vless",
       "settings": {
         "vnext": [
           {
-            "address": "www.visa.com.sg",
-            "port": 8443,
+            "address": "104.21.48.1",
+            "port": 2087,
             "users": [
               {
-                "id": "60216752-c119-44bc-bd22-8bf9e912d0fa",
-                "alterId": 0,
-                "email": "t@t.tt",
-                "security": "auto",
+                "id": "7621c00a-1303-40e5-91e6-d30a46f0f20c",
                 "encryption": "none",
-                "flow": ""
+                "level": 8
               }
             ]
           }
@@ -71,243 +250,295 @@
       "streamSettings": {
         "network": "ws",
         "security": "tls",
-        "tlsSettings": {
-          "allowInsecure": false,
-          "serverName": "ExampLEs-gReETInG-LakEs-gANG.TryCLoUDFlaRe.cOm",
-          "alpn": [
-            "h2",
-            "http/1.1"
-          ],
-          "fingerprint": "chrome",
-          "show": false
+        "sockopt": {
+          "dialerProxy": "fragment"
         },
         "wsSettings": {
-          "path": "60216752-c119-44bc-bd22-8bf9e912d0fa-vm?ed=2560",
-          "headers": {
-            "Host": "ExampLEs-gReETInG-LakEs-gANG.TryCLoUDFlaRe.cOm"
-          }
+          "host": "ghk--43pm-2eze1ys72uz063xmun69be.pages.dev",
+          "path": "/ODXuT3a85N4jBGp0?ed=2560"
         },
-        "sockopt": {
-          "dialerProxy": "fragment",
-          "tcpKeepAliveIdle": 100,
-          "mark": 255,
-          "tcpNoDelay": true
+        "tlsSettings": {
+          "allowInsecure": false,
+          "fingerprint": "randomized",
+          "alpn": [
+            "http/1.1"
+          ],
+          "serverName": "gHK--43pM-2EzE1ys72uZ063xMun69BE.pageS.DEV"
         }
       },
-      "mux": {
-        "enabled": true,
-        "concurrency": 8,
-        "xudpConcurrency": 8,
-        "xudpProxyUDP443": "reject"
-      }
+      "tag": "proxy"
     },
     {
       "tag": "fragment",
       "protocol": "freedom",
       "settings": {
-        "domainStrategy": "AsIs",
         "fragment": {
           "packets": "tlshello",
-          "length": "13-17",
-          "interval": "1-2"
-        }
-      },
-      "streamSettings": {
-        "sockopt": {
-          "tcpNoDelay": true,
-          "tcpKeepAliveIdle": 100
-        }
+          "length": "100-200",
+          "interval": "1-1"
+        },
+        "domainStrategy": "UseIPv4v6"
       }
     },
     {
-      "tag": "direct",
-      "protocol": "freedom",
-      "settings": {}
+      "protocol": "dns",
+      "tag": "dns-out"
     },
     {
-      "tag": "block",
+      "protocol": "freedom",
+      "settings": {
+        "domainStrategy": "UseIP"
+      },
+      "tag": "direct"
+    },
+    {
       "protocol": "blackhole",
       "settings": {
         "response": {
           "type": "http"
         }
-      }
+      },
+      "tag": "block"
     }
   ],
+  "policy": {
+    "levels": {
+      "8": {
+        "connIdle": 300,
+        "downlinkOnly": 1,
+        "handshake": 4,
+        "uplinkOnly": 1
+      }
+    },
+    "system": {
+      "statsOutboundUplink": true,
+      "statsOutboundDownlink": true
+    }
+  },
   "routing": {
-    "domainStrategy": "AsIs",
+    "domainStrategy": "IPIfNonMatch",
     "rules": [
       {
-        "type": "field",
         "inboundTag": [
-          "api"
+          "dns-in"
         ],
-        "outboundTag": "api",
-        "enabled": true
+        "outboundTag": "dns-out",
+        "type": "field"
       },
       {
-        "id": "5627785659655799759",
-        "type": "field",
-        "port": "0-65535",
+        "inboundTag": [
+          "socks-in"
+        ],
+        "port": 53,
+        "outboundTag": "dns-out",
+        "type": "field"
+      },
+      {
+        "inboundTag": [
+          "remote-dns"
+        ],
         "outboundTag": "proxy",
-        "enabled": true
+        "type": "field"
+      },
+      {
+        "inboundTag": [
+          "dns"
+        ],
+        "outboundTag": "direct",
+        "type": "field"
+      },
+      {
+        "network": "udp",
+        "outboundTag": "block",
+        "type": "field"
+      },
+      {
+        "network": "tcp",
+        "outboundTag": "proxy",
+        "type": "field"
       }
     ]
-},
-{
-  "remarks": "NLsevNaqme",
+  },
+  "stats": {}
+} ]===
+{ اینم کانفیگ دوم که فرستادی... }
+
+===[ {
+  "remarks": "💦 83 - Trojan F - IPv4 : 2096",
   "log": {
-    "access": "",
-    "error": "",
     "loglevel": "warning"
+  },
+  "dns": {
+    "hosts": {
+      "d.adguard-dns.com": [
+        "94.140.14.49",
+        "2a10:50c0::ded:ff"
+      ]
+    },
+    "servers": [
+      {
+        "address": "https://d.adguard-dns.com/dns-query/258d2a76",
+        "tag": "remote-dns"
+      }
+    ],
+    "queryStrategy": "UseIP",
+    "tag": "dns"
   },
   "inbounds": [
     {
-      "tag": "socks",
       "port": 10808,
-      "listen": "127.0.0.1",
       "protocol": "socks",
+      "settings": {
+        "auth": "noauth",
+        "udp": true,
+        "userLevel": 8
+      },
       "sniffing": {
-        "enabled": true,
         "destOverride": [
           "http",
           "tls"
         ],
-        "routeOnly": false
+        "enabled": true,
+        "routeOnly": true
       },
-      "settings": {
-        "auth": "noauth",
-        "udp": true,
-        "allowTransparent": false
-      }
+      "tag": "socks-in"
     },
     {
-      "tag": "http",
-      "port": 10809,
-      "listen": "127.0.0.1",
-      "protocol": "http",
-      "sniffing": {
-        "enabled": true,
-        "destOverride": [
-          "http",
-          "tls"
-        ],
-        "routeOnly": false
-      },
+      "port": 10853,
+      "protocol": "dokodemo-door",
       "settings": {
-        "auth": "noauth",
-        "udp": true,
-        "allowTransparent": false
-      }
+        "address": "1.1.1.1",
+        "network": "tcp,udp",
+        "port": 53
+      },
+      "tag": "dns-in"
     }
   ],
   "outbounds": [
     {
-      "tag": "proxy",
-      "protocol": "vmess",
+      "protocol": "trojan",
       "settings": {
-        "vnext": [
+        "servers": [
           {
-            "address": "www.visa.com.sg",
-            "port": 8443,
-            "users": [
-              {
-                "id": "60216752-c119-44bc-bd22-8bf9e912d0fa",
-                "alterId": 0,
-                "email": "t@t.tt",
-                "security": "auto",
-                "encryption": "none",
-                "flow": ""
-              }
-            ]
+            "address": "104.21.80.1",
+            "port": 2096,
+            "password": ")|GBp(tptN_|",
+            "level": 8
           }
         ]
       },
       "streamSettings": {
         "network": "ws",
         "security": "tls",
-        "tlsSettings": {
-          "allowInsecure": false,
-          "serverName": "ExampLEs-gReETInG-LakEs-gANG.TryCLoUDFlaRe.cOm",
-          "alpn": [
-            "h2",
-            "http/1.1"
-          ],
-          "fingerprint": "chrome",
-          "show": false
+        "sockopt": {
+          "dialerProxy": "fragment"
         },
         "wsSettings": {
-          "path": "60216752-c119-44bc-bd22-8bf9e912d0fa-vm?ed=2560",
-          "headers": {
-            "Host": "ExampLEs-gReETInG-LakEs-gANG.TryCLoUDFlaRe.cOm"
-          }
+          "host": "ghk--43pm-2eze1ys72uz063xmun69be.pages.dev",
+          "path": "/trHIvVyB0Hy2m06yof?ed=2560"
         },
-        "sockopt": {
-          "dialerProxy": "fragment",
-          "tcpKeepAliveIdle": 100,
-          "mark": 255,
-          "tcpNoDelay": true
+        "tlsSettings": {
+          "allowInsecure": false,
+          "fingerprint": "randomized",
+          "alpn": [
+            "http/1.1"
+          ],
+          "serverName": "GhK--43Pm-2eze1YS72UZ063xMun69Be.PAgeS.DeV"
         }
       },
-      "mux": {
-        "enabled": true,
-        "concurrency": 8,
-        "xudpConcurrency": 8,
-        "xudpProxyUDP443": "reject"
-      }
+      "tag": "proxy"
     },
     {
       "tag": "fragment",
       "protocol": "freedom",
       "settings": {
-        "domainStrategy": "AsIs",
         "fragment": {
           "packets": "tlshello",
-          "length": "13-18",
-          "interval": "1-2"
-        }
-      },
-      "streamSettings": {
-        "sockopt": {
-          "tcpNoDelay": true,
-          "tcpKeepAliveIdle": 100
-        }
+          "length": "100-200",
+          "interval": "1-1"
+        },
+        "domainStrategy": "UseIPv4v6"
       }
     },
     {
-      "tag": "direct",
-      "protocol": "freedom",
-      "settings": {}
+      "protocol": "dns",
+      "tag": "dns-out"
     },
     {
-      "tag": "block",
+      "protocol": "freedom",
+      "settings": {
+        "domainStrategy": "UseIP"
+      },
+      "tag": "direct"
+    },
+    {
       "protocol": "blackhole",
       "settings": {
         "response": {
           "type": "http"
         }
-      }
+      },
+      "tag": "block"
     }
   ],
+  "policy": {
+    "levels": {
+      "8": {
+        "connIdle": 300,
+        "downlinkOnly": 1,
+        "handshake": 4,
+        "uplinkOnly": 1
+      }
+    },
+    "system": {
+      "statsOutboundUplink": true,
+      "statsOutboundDownlink": true
+    }
+  },
   "routing": {
-    "domainStrategy": "AsIs",
+    "domainStrategy": "IPIfNonMatch",
     "rules": [
       {
-        "type": "field",
         "inboundTag": [
-          "api"
+          "dns-in"
         ],
-        "outboundTag": "api",
-        "enabled": true
+        "outboundTag": "dns-out",
+        "type": "field"
       },
       {
-        "id": "5627785659655799759",
-        "type": "field",
-        "port": "0-65535",
+        "inboundTag": [
+          "socks-in"
+        ],
+        "port": 53,
+        "outboundTag": "dns-out",
+        "type": "field"
+      },
+      {
+        "inboundTag": [
+          "remote-dns"
+        ],
         "outboundTag": "proxy",
-        "enabled": true
+        "type": "field"
+      },
+      {
+        "inboundTag": [
+          "dns"
+        ],
+        "outboundTag": "direct",
+        "type": "field"
+      },
+      {
+        "network": "udp",
+        "outboundTag": "block",
+        "type": "field"
+      },
+      {
+        "network": "tcp",
+        "outboundTag": "proxy",
+        "type": "field"
       }
     ]
-  }
-}
-]
+  },
+  "stats": {}
+} ]===
+{ کانفیگ سوم هم همینجا... }
