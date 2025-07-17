@@ -1,3 +1,4 @@
+[
 {
   "remarks": "cctv",
   "log": {
@@ -151,7 +152,9 @@
         "outboundTag": "proxy",
         "enabled": true
       }
-    ],
+    ]
+  }
+},
 {
   "remarks": "NLsevNaqme",
   "log": {
@@ -308,3 +311,4 @@
     ]
   }
 }
+]
