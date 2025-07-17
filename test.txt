@@ -1,559 +1,310 @@
 [
   {
-    "remarks": "💦 83 - Trojan F - IPv4 : 2096",
+    "remarks": "💦 72 - Trojan F - IPv4 : 2087",
     "log": {
       "loglevel": "warning"
     },
-    {
-  "remarks": "💦 72 - Trojan F - IPv4 : 2087",
-  "log": {
-    "loglevel": "warning"
-  },
-  "dns": {
-    "hosts": {
-      "d.adguard-dns.com": [
-        "94.140.14.49",
-        "2a10:50c0::ded:ff"
-      ]
-    },
-    "servers": [
-      {
-        "address": "https://d.adguard-dns.com/dns-query/258d2a76",
-        "tag": "remote-dns"
-      }
-    ],
-    "queryStrategy": "UseIP",
-    "tag": "dns"
-  },
-  "inbounds": [
-    {
-      "port": 10808,
-      "protocol": "socks",
-      "settings": {
-        "auth": "noauth",
-        "udp": true,
-        "userLevel": 8
-      },
-      "sniffing": {
-        "destOverride": [
-          "http",
-          "tls"
-        ],
-        "enabled": true,
-        "routeOnly": true
-      },
-      "tag": "socks-in"
-    },
-    {
-      "port": 10853,
-      "protocol": "dokodemo-door",
-      "settings": {
-        "address": "1.1.1.1",
-        "network": "tcp,udp",
-        "port": 53
-      },
-      "tag": "dns-in"
-    }
-  ],
-  "outbounds": [
-    {
-      "protocol": "trojan",
-      "settings": {
-        "servers": [
-          {
-            "address": "104.21.112.1",
-            "port": 2087,
-            "password": ")|GBp(tptN_|",
-            "level": 8
-          }
+    "dns": {
+      "hosts": {
+        "d.adguard-dns.com": [
+          "94.140.14.49",
+          "2a10:50c0::ded:ff"
         ]
       },
-      "streamSettings": {
-        "network": "ws",
-        "security": "tls",
-        "sockopt": {
-          "dialerProxy": "fragment"
+      "servers": [
+        {
+          "address": "https://d.adguard-dns.com/dns-query/258d2a76",
+          "tag": "remote-dns"
+        }
+      ],
+      "queryStrategy": "UseIP",
+      "tag": "dns"
+    },
+    "inbounds": [
+      {
+        "port": 10808,
+        "protocol": "socks",
+        "settings": {
+          "auth": "noauth",
+          "udp": true,
+          "userLevel": 8
         },
-        "wsSettings": {
-          "host": "ghk--43pm-2eze1ys72uz063xmun69be.pages.dev",
-          "path": "/trYZU3k0u8jPKIujtf?ed=2560"
+        "sniffing": {
+          "destOverride": ["http", "tls"],
+          "enabled": true,
+          "routeOnly": true
         },
-        "tlsSettings": {
-          "allowInsecure": false,
-          "fingerprint": "randomized",
-          "alpn": [
-            "http/1.1"
-          ],
-          "serverName": "Ghk--43pm-2EzE1ys72Uz063xmUN69BE.PagEs.deV"
+        "tag": "socks-in"
+      },
+      {
+        "port": 10853,
+        "protocol": "dokodemo-door",
+        "settings": {
+          "address": "1.1.1.1",
+          "network": "tcp,udp",
+          "port": 53
+        },
+        "tag": "dns-in"
+      }
+    ],
+    "outbounds": [
+      {
+        "protocol": "trojan",
+        "settings": {
+          "servers": [
+            {
+              "address": "104.21.112.1",
+              "port": 2087,
+              "password": ")|GBp(tptN_|",
+              "level": 8
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "ws",
+          "security": "tls",
+          "sockopt": {
+            "dialerProxy": "fragment"
+          },
+          "wsSettings": {
+            "host": "ghk--43pm-2eze1ys72uz063xmun69be.pages.dev",
+            "path": "/trYZU3k0u8jPKIujtf?ed=2560"
+          },
+          "tlsSettings": {
+            "allowInsecure": false,
+            "fingerprint": "randomized",
+            "alpn": ["http/1.1"],
+            "serverName": "Ghk--43pm-2EzE1ys72Uz063xmUN69BE.PagEs.deV"
+          }
+        },
+        "tag": "proxy"
+      },
+      {
+        "tag": "fragment",
+        "protocol": "freedom",
+        "settings": {
+          "fragment": {
+            "packets": "tlshello",
+            "length": "100-200",
+            "interval": "1-1"
+          },
+          "domainStrategy": "UseIPv4v6"
         }
       },
-      "tag": "proxy"
-    },
-    {
-      "tag": "fragment",
-      "protocol": "freedom",
-      "settings": {
-        "fragment": {
-          "packets": "tlshello",
-          "length": "100-200",
-          "interval": "1-1"
-        },
-        "domainStrategy": "UseIPv4v6"
-      }
-    },
-    {
-      "protocol": "dns",
-      "tag": "dns-out"
-    },
-    {
-      "protocol": "freedom",
-      "settings": {
-        "domainStrategy": "UseIP"
+      {
+        "protocol": "dns",
+        "tag": "dns-out"
       },
-      "tag": "direct"
-    },
-    {
-      "protocol": "blackhole",
-      "settings": {
-        "response": {
-          "type": "http"
+      {
+        "protocol": "freedom",
+        "settings": {
+          "domainStrategy": "UseIP"
+        },
+        "tag": "direct"
+      },
+      {
+        "protocol": "blackhole",
+        "settings": {
+          "response": {
+            "type": "http"
+          }
+        },
+        "tag": "block"
+      }
+    ],
+    "policy": {
+      "levels": {
+        "8": {
+          "connIdle": 300,
+          "downlinkOnly": 1,
+          "handshake": 4,
+          "uplinkOnly": 1
         }
       },
-      "tag": "block"
-    }
-  ],
-  "policy": {
-    "levels": {
-      "8": {
-        "connIdle": 300,
-        "downlinkOnly": 1,
-        "handshake": 4,
-        "uplinkOnly": 1
+      "system": {
+        "statsOutboundUplink": true,
+        "statsOutboundDownlink": true
       }
     },
-    "system": {
-      "statsOutboundUplink": true,
-      "statsOutboundDownlink": true
-    }
-  },
-  "routing": {
-    "domainStrategy": "IPIfNonMatch",
-    "rules": [
-      {
-        "inboundTag": [
-          "dns-in"
-        ],
-        "outboundTag": "dns-out",
-        "type": "field"
-      },
-      {
-        "inboundTag": [
-          "socks-in"
-        ],
-        "port": 53,
-        "outboundTag": "dns-out",
-        "type": "field"
-      },
-      {
-        "inboundTag": [
-          "remote-dns"
-        ],
-        "outboundTag": "proxy",
-        "type": "field"
-      },
-      {
-        "inboundTag": [
-          "dns"
-        ],
-        "outboundTag": "direct",
-        "type": "field"
-      },
-      {
-        "network": "udp",
-        "outboundTag": "block",
-        "type": "field"
-      },
-      {
-        "network": "tcp",
-        "outboundTag": "proxy",
-        "type": "field"
-      }
-    ]
-  },
-  "stats": {}
-}
+    "routing": {
+      "domainStrategy": "IPIfNonMatch",
+      "rules": [
+        {
+          "inboundTag": ["dns-in"],
+          "outboundTag": "dns-out",
+          "type": "field"
+        },
+        {
+          "inboundTag": ["socks-in"],
+          "port": 53,
+          "outboundTag": "dns-out",
+          "type": "field"
+        },
+        {
+          "inboundTag": ["remote-dns"],
+          "outboundTag": "proxy",
+          "type": "field"
+        },
+        {
+          "inboundTag": ["dns"],
+          "outboundTag": "direct",
+          "type": "field"
+        },
+        {
+          "network": "udp",
+          "outboundTag": "block",
+          "type": "field"
+        },
+        {
+          "network": "tcp",
+          "outboundTag": "proxy",
+          "type": "field"
+        }
+      ]
+    },
+    "stats": {}
   },
   {
     "remarks": "💦 71 - VLESS F - IPv4 : 2087",
     "log": {
       "loglevel": "warning"
     },
-    {
-  "remarks": "💦 71 - VLESS F - IPv4 : 2087",
-  "log": {
-    "loglevel": "warning"
-  },
-  "dns": {
-    "hosts": {
-      "d.adguard-dns.com": [
-        "94.140.14.49",
-        "2a10:50c0::ded:ff"
-      ]
-    },
-    "servers": [
-      {
-        "address": "https://d.adguard-dns.com/dns-query/258d2a76",
-        "tag": "remote-dns"
-      }
-    ],
-    "queryStrategy": "UseIP",
-    "tag": "dns"
-  },
-  "inbounds": [
-    {
-      "port": 10808,
-      "protocol": "socks",
-      "settings": {
-        "auth": "noauth",
-        "udp": true,
-        "userLevel": 8
-      },
-      "sniffing": {
-        "destOverride": [
-          "http",
-          "tls"
-        ],
-        "enabled": true,
-        "routeOnly": true
-      },
-      "tag": "socks-in"
-    },
-    {
-      "port": 10853,
-      "protocol": "dokodemo-door",
-      "settings": {
-        "address": "1.1.1.1",
-        "network": "tcp,udp",
-        "port": 53
-      },
-      "tag": "dns-in"
-    }
-  ],
-  "outbounds": [
-    {
-      "protocol": "vless",
-      "settings": {
-        "vnext": [
-          {
-            "address": "104.21.48.1",
-            "port": 2087,
-            "users": [
-              {
-                "id": "7621c00a-1303-40e5-91e6-d30a46f0f20c",
-                "encryption": "none",
-                "level": 8
-              }
-            ]
-          }
+    "dns": {
+      "hosts": {
+        "d.adguard-dns.com": [
+          "94.140.14.49",
+          "2a10:50c0::ded:ff"
         ]
       },
-      "streamSettings": {
-        "network": "ws",
-        "security": "tls",
-        "sockopt": {
-          "dialerProxy": "fragment"
-        },
-        "wsSettings": {
-          "host": "ghk--43pm-2eze1ys72uz063xmun69be.pages.dev",
-          "path": "/ODXuT3a85N4jBGp0?ed=2560"
-        },
-        "tlsSettings": {
-          "allowInsecure": false,
-          "fingerprint": "randomized",
-          "alpn": [
-            "http/1.1"
-          ],
-          "serverName": "gHK--43pM-2EzE1ys72uZ063xMun69BE.pageS.DEV"
+      "servers": [
+        {
+          "address": "https://d.adguard-dns.com/dns-query/258d2a76",
+          "tag": "remote-dns"
         }
-      },
-      "tag": "proxy"
+      ],
+      "queryStrategy": "UseIP",
+      "tag": "dns"
     },
-    {
-      "tag": "fragment",
-      "protocol": "freedom",
-      "settings": {
-        "fragment": {
-          "packets": "tlshello",
-          "length": "100-200",
-          "interval": "1-1"
+    "inbounds": [
+      {
+        "port": 10808,
+        "protocol": "socks",
+        "settings": {
+          "auth": "noauth",
+          "udp": true,
+          "userLevel": 8
         },
-        "domainStrategy": "UseIPv4v6"
-      }
-    },
-    {
-      "protocol": "dns",
-      "tag": "dns-out"
-    },
-    {
-      "protocol": "freedom",
-      "settings": {
-        "domainStrategy": "UseIP"
-      },
-      "tag": "direct"
-    },
-    {
-      "protocol": "blackhole",
-      "settings": {
-        "response": {
-          "type": "http"
-        }
-      },
-      "tag": "block"
-    }
-  ],
-  "policy": {
-    "levels": {
-      "8": {
-        "connIdle": 300,
-        "downlinkOnly": 1,
-        "handshake": 4,
-        "uplinkOnly": 1
-      }
-    },
-    "system": {
-      "statsOutboundUplink": true,
-      "statsOutboundDownlink": true
-    }
-  },
-  "routing": {
-    "domainStrategy": "IPIfNonMatch",
-    "rules": [
-      {
-        "inboundTag": [
-          "dns-in"
-        ],
-        "outboundTag": "dns-out",
-        "type": "field"
+        "sniffing": {
+          "destOverride": ["http", "tls"],
+          "enabled": true,
+          "routeOnly": true
+        },
+        "tag": "socks-in"
       },
       {
-        "inboundTag": [
-          "socks-in"
-        ],
-        "port": 53,
-        "outboundTag": "dns-out",
-        "type": "field"
-      },
-      {
-        "inboundTag": [
-          "remote-dns"
-        ],
-        "outboundTag": "proxy",
-        "type": "field"
-      },
-      {
-        "inboundTag": [
-          "dns"
-        ],
-        "outboundTag": "direct",
-        "type": "field"
-      },
-      {
-        "network": "udp",
-        "outboundTag": "block",
-        "type": "field"
-      },
-      {
-        "network": "tcp",
-        "outboundTag": "proxy",
-        "type": "field"
-      }
-    ]
-  },
-  "stats": {}
-}
-  },
-  {
-    "remarks": "💦 72 - Trojan F - IPv4 : 2087",
-    "log": {
-      "loglevel": "warning"
-    },
-    {
-  "remarks": "💦 83 - Trojan F - IPv4 : 2096",
-  "log": {
-    "loglevel": "warning"
-  },
-  "dns": {
-    "hosts": {
-      "d.adguard-dns.com": [
-        "94.140.14.49",
-        "2a10:50c0::ded:ff"
-      ]
-    },
-    "servers": [
-      {
-        "address": "https://d.adguard-dns.com/dns-query/258d2a76",
-        "tag": "remote-dns"
+        "port": 10853,
+        "protocol": "dokodemo-door",
+        "settings": {
+          "address": "1.1.1.1",
+          "network": "tcp,udp",
+          "port": 53
+        },
+        "tag": "dns-in"
       }
     ],
-    "queryStrategy": "UseIP",
-    "tag": "dns"
-  },
-  "inbounds": [
-    {
-      "port": 10808,
-      "protocol": "socks",
-      "settings": {
-        "auth": "noauth",
-        "udp": true,
-        "userLevel": 8
-      },
-      "sniffing": {
-        "destOverride": [
-          "http",
-          "tls"
-        ],
-        "enabled": true,
-        "routeOnly": true
-      },
-      "tag": "socks-in"
-    },
-    {
-      "port": 10853,
-      "protocol": "dokodemo-door",
-      "settings": {
-        "address": "1.1.1.1",
-        "network": "tcp,udp",
-        "port": 53
-      },
-      "tag": "dns-in"
-    }
-  ],
-  "outbounds": [
-    {
-      "protocol": "trojan",
-      "settings": {
-        "servers": [
-          {
-            "address": "104.21.80.1",
-            "port": 2096,
-            "password": ")|GBp(tptN_|",
-            "level": 8
+    "outbounds": [
+      {
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "104.21.48.1",
+              "port": 2087,
+              "users": [
+                {
+                  "id": "7621c00a-1303-40e5-91e6-d30a46f0f20c",
+                  "encryption": "none",
+                  "level": 8
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "ws",
+          "security": "tls",
+          "sockopt": {
+            "dialerProxy": "fragment"
+          },
+          "wsSettings": {
+            "host": "ghk--43pm-2eze1ys72uz063xmun69be.pages.dev",
+            "path": "/ODXuT3a85N4jBGp0?ed=2560"
+          },
+          "tlsSettings": {
+            "allowInsecure": false,
+            "fingerprint": "randomized",
+            "alpn": ["http/1.1"],
+            "serverName": "gHK--43pM-2EzE1ys72uZ063xMun69BE.pageS.DEV"
           }
-        ]
+        },
+        "tag": "proxy"
       },
-      "streamSettings": {
-        "network": "ws",
-        "security": "tls",
-        "sockopt": {
-          "dialerProxy": "fragment"
-        },
-        "wsSettings": {
-          "host": "ghk--43pm-2eze1ys72uz063xmun69be.pages.dev",
-          "path": "/trHIvVyB0Hy2m06yof?ed=2560"
-        },
-        "tlsSettings": {
-          "allowInsecure": false,
-          "fingerprint": "randomized",
-          "alpn": [
-            "http/1.1"
-          ],
-          "serverName": "GhK--43Pm-2eze1YS72UZ063xMun69Be.PAgeS.DeV"
+      {
+        "tag": "fragment",
+        "protocol": "freedom",
+        "settings": {
+          "fragment": {
+            "packets": "tlshello",
+            "length": "100-200",
+            "interval": "1-1"
+          },
+          "domainStrategy": "UseIPv4v6"
         }
       },
-      "tag": "proxy"
-    },
-    {
-      "tag": "fragment",
-      "protocol": "freedom",
-      "settings": {
-        "fragment": {
-          "packets": "tlshello",
-          "length": "100-200",
-          "interval": "1-1"
-        },
-        "domainStrategy": "UseIPv4v6"
-      }
-    },
-    {
-      "protocol": "dns",
-      "tag": "dns-out"
-    },
-    {
-      "protocol": "freedom",
-      "settings": {
-        "domainStrategy": "UseIP"
+      {
+        "protocol": "dns",
+        "tag": "dns-out"
       },
-      "tag": "direct"
-    },
-    {
-      "protocol": "blackhole",
-      "settings": {
-        "response": {
-          "type": "http"
+      {
+        "protocol": "freedom",
+        "settings": {
+          "domainStrategy": "UseIP"
+        },
+        "tag": "direct"
+      },
+      {
+        "protocol": "blackhole",
+        "settings": {
+          "response": {
+            "type": "http"
+          }
+        },
+        "tag": "block"
+      }
+    ],
+    "policy": {
+      "levels": {
+        "8": {
+          "connIdle": 300,
+          "downlinkOnly": 1,
+          "handshake": 4,
+          "uplinkOnly": 1
         }
       },
-      "tag": "block"
-    }
-  ],
-  "policy": {
-    "levels": {
-      "8": {
-        "connIdle": 300,
-        "downlinkOnly": 1,
-        "handshake": 4,
-        "uplinkOnly": 1
+      "system": {
+        "statsOutboundUplink": true,
+        "statsOutboundDownlink": true
       }
     },
-    "system": {
-      "statsOutboundUplink": true,
-      "statsOutboundDownlink": true
-    }
-  },
-  "routing": {
-    "domainStrategy": "IPIfNonMatch",
-    "rules": [
-      {
-        "inboundTag": [
-          "dns-in"
-        ],
-        "outboundTag": "dns-out",
-        "type": "field"
-      },
-      {
-        "inboundTag": [
-          "socks-in"
-        ],
-        "port": 53,
-        "outboundTag": "dns-out",
-        "type": "field"
-      },
-      {
-        "inboundTag": [
-          "remote-dns"
-        ],
-        "outboundTag": "proxy",
-        "type": "field"
-      },
-      {
-        "inboundTag": [
-          "dns"
-        ],
-        "outboundTag": "direct",
-        "type": "field"
-      },
-      {
-        "network": "udp",
-        "outboundTag": "block",
-        "type": "field"
-      },
-      {
-        "network": "tcp",
-        "outboundTag": "proxy",
-        "type": "field"
-      }
-    ]
-  },
-  "stats": {}
-}
-  }
-]
+    "routing": {
+      "domainStrategy": "IPIfNonMatch",
+      "rules": [
+        {
+          "inboundTag": ["dns-in"],
+          "outboundTag": "dns-out",
+          "type": "field"
+        },
+        {
+          "inboundTag": ["socks-in"],
+          "port": 53,
+         [43dcd9a7-70db-4a1f-b0ae-981daa162054](https://github.com/Sdator/JS_snippets/tree/82150d932ccf215fab069c38a55403837ac11192/%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5%2FScript%20snippet%20%2344.js?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "1")[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://github.com/magictomagic/iron/tree/6da53e84f173227a33efb429028d52cfa212b611/content%2Fpost%2FLinux-V2ray-proxy-configuration.md?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "2")[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://github.com/krot357/CN-V2ray-NewCore/tree/cfbff7040a488e84d793829f453940b7e8a23b11/CN-v2ray-newCore-install.sh?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "3")[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://github.com/Chronos-LYH/v2ray-subscription/tree/fcd29403182ebbe8fc395cdf3769c84b72dc248d/v2ray-config-generator.py?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "4")
