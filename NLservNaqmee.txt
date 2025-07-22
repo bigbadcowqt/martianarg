@@ -155,6 +155,68 @@
     ]
   }
 },
+      "settings": {
+        "vnext": [
+          {
+            "address": "clud.iranhttp.com",
+            "port": 2096,
+            "users": [
+              {
+                "encryption": "none",
+                "id": "d52682cf-5c23-4203-a4be-7134b3385824",
+                "level": 8
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "protocol": "freedom",
+      "settings": {
+        "domainStrategy": "AsIs",
+        "noises": [],
+        "redirect": ""
+      },
+      "tag": "direct"
+    },
+    {
+      "protocol": "blackhole",
+      "settings": {
+        "response": {
+          "type": "http"
+        }
+      },
+      "tag": "block"
+    }
+  ],
+  "policy": {
+    "levels": {
+      "8": {
+        "connIdle": 300,
+        "downlinkOnly": 1,
+        "handshake": 4,
+        "uplinkOnly": 1
+      }
+    },
+    "system": {
+      "statsOutboundDownlink": true,
+      "statsOutboundUplink": true
+    }
+  },
+  "remarks": "NAqMEnewww",
+  "routing": {
+    "domainStrategy": "AsIs",
+    "rules": [
+      {
+        "network": "tcp,udp",
+        "outboundTag": "proxy",
+        "type": "field"
+      }
+    ]
+  },
+  "stats": {}
+},
 {
   "dns": {
     "queryStrategy": "UseIP",
@@ -213,7 +275,7 @@
         "tlsSettings": {
           "allowInsecure": true,
           "alpn": [],
-          "fingerprint": "random",
+          "fingerprint": "chrome",
           "serverName": "ilovepdf.com"
         }
       },
@@ -225,7 +287,7 @@
             "users": [
               {
                 "encryption": "none",
-                "id": "d52682cf-5c23-4203-a4be-7134b3385824",
+                "id": "31bb2f71-9e11-41b6-8167-fa16eb5b78d8",
                 "level": 8
               }
             ]
