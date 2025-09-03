@@ -1,16 +1,19 @@
 {
-  "remarks": "💦 9 - VLESS - IPv4 : 8443",
+  "remarks": "💦 94 - Trojan F - IPv6 : 2096",
   "log": {
     "loglevel": "warning"
   },
   "dns": {
+    "hosts": {
+      "d.adguard-dns.com": [
+        "94.140.14.49",
+        "2a10:50c0::ded:ff"
+      ]
+    },
     "servers": [
-      "https://9.9.9.9/dns-query",
       {
-        "address": "1.1.1.1"
-      },
-      {
-        "address": "8.8.4.4"
+        "address": "https://d.adguard-dns.com/dns-query/258d2a76",
+        "tag": "remote-dns"
       }
     ],
     "queryStrategy": "UseIP",
@@ -31,7 +34,7 @@
           "tls"
         ],
         "enabled": true,
-        "routeOnly": false
+        "routeOnly": true
       },
       "tag": "socks-in"
     },
@@ -48,19 +51,14 @@
   ],
   "outbounds": [
     {
-      "protocol": "vless",
+      "protocol": "trojan",
       "settings": {
-        "vnext": [
+        "servers": [
           {
-            "address": "104.21.33.70",
-            "port": 8443,
-            "users": [
-              {
-                "id": "d1563ff5-b87c-41a2-ab52-315a5251783b",
-                "encryption": "none",
-                "level": 8
-              }
-            ]
+            "address": "[2606:4700:3030::6815:5001]",
+            "port": 2096,
+            "password": ")|GBp(tptN_|",
+            "level": 8
           }
         ]
       },
@@ -68,23 +66,34 @@
         "network": "ws",
         "security": "tls",
         "sockopt": {
-          "domainStrategy": "UseIPv4v6",
-          "tcpFastOpen": true
+          "dialerProxy": "fragment"
         },
         "wsSettings": {
-          "host": "white-tooth-0914.motilew530.workers.dev",
-          "path": "/SfCL44HuPKPyhBBf?ed=2560"
+          "host": "ghk--43pm-2eze1ys72uz063xmun69be.pages.dev",
+          "path": "/tryKr8ckJ9xgcEfWtC?ed=2560"
         },
         "tlsSettings": {
           "allowInsecure": false,
-          "fingerprint": "firefox",
+          "fingerprint": "randomized",
           "alpn": [
             "http/1.1"
           ],
-          "serverName": "white-tooth-0914.motilew530.workers.dev"
+          "serverName": "GhK--43Pm-2eze1yS72uz063XMuN69Be.pAges.DEv"
         }
       },
       "tag": "proxy"
+    },
+    {
+      "tag": "fragment",
+      "protocol": "freedom",
+      "settings": {
+        "fragment": {
+          "packets": "tlshello",
+          "length": "100-200",
+          "interval": "1-1"
+        },
+        "domainStrategy": "UseIPv4v6"
+      }
     },
     {
       "protocol": "dns",
@@ -135,15 +144,22 @@
         "inboundTag": [
           "socks-in"
         ],
-        "port": "53",
+        "port": 53,
         "outboundTag": "dns-out",
+        "type": "field"
+      },
+      {
+        "inboundTag": [
+          "remote-dns"
+        ],
+        "outboundTag": "proxy",
         "type": "field"
       },
       {
         "inboundTag": [
           "dns"
         ],
-        "outboundTag": "proxy",
+        "outboundTag": "direct",
         "type": "field"
       },
       {
