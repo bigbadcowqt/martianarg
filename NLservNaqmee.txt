@@ -53,11 +53,11 @@
       "settings": {
         "vnext": [
           {
-            "address": "www.visa.com.sg",
-            "port": 8443,
+            "address": "104.16.0.0",
+            "port": 443,
             "users": [
               {
-                "id": "60216752-c119-44bc-bd22-8bf9e912d0fa",
+                "id": "2d7c029e-a06e-4bd8-9124-447cb0a2ec32",
                 "alterId": 0,
                 "email": "t@t.tt",
                 "security": "auto",
@@ -73,7 +73,7 @@
         "security": "tls",
         "tlsSettings": {
           "allowInsecure": false,
-          "serverName": "ExampLEs-gReETInG-LakEs-gANG.TryCLoUDFlaRe.cOm",
+          "serverName": "measures-mins-diploma-tommy.trycloudflare.com",
           "alpn": [
             "h2",
             "http/1.1"
@@ -82,9 +82,9 @@
           "show": false
         },
         "wsSettings": {
-          "path": "60216752-c119-44bc-bd22-8bf9e912d0fa-vm?ed=2560",
+          "path": "/2d7c029e-a06e-4bd8-9124-447cb0a2ec32-vm?ed=2048",
           "headers": {
-            "Host": "ExampLEs-gReETInG-LakEs-gANG.TryCLoUDFlaRe.cOm"
+            "Host": "measures-mins-diploma-tommy.trycloudflare.com"
           }
         },
         "sockopt": {
