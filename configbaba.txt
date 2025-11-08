@@ -1,28 +1,18 @@
 {
-  "remarks": "💦 94 - Trojan F - IPv6 : 2096",
-  "log": {
-    "loglevel": "warning"
-  },
   "dns": {
-    "hosts": {
-      "d.adguard-dns.com": [
-        "94.140.14.49",
-        "2a10:50c0::ded:ff"
-      ]
-    },
+    "queryStrategy": "UseIP",
     "servers": [
       {
-        "address": "https://d.adguard-dns.com/dns-query/258d2a76",
-        "tag": "remote-dns"
+        "address": "8.8.8.8",
+        "skipFallback": false
       }
     ],
-    "queryStrategy": "UseIP",
-    "tag": "dns"
+    "tag": "dns_out"
   },
   "inbounds": [
     {
       "port": 10808,
-      "protocol": "socks",
+      "protocol": "mixed",
       "settings": {
         "auth": "noauth",
         "udp": true,
@@ -31,78 +21,67 @@
       "sniffing": {
         "destOverride": [
           "http",
-          "tls"
+          "tls",
+          "quic",
+          "fakedns"
         ],
-        "enabled": true,
-        "routeOnly": true
+        "enabled": true
       },
-      "tag": "socks-in"
+      "tag": "mixed"
     },
     {
-      "port": 10853,
-      "protocol": "dokodemo-door",
+      "port": 10809,
+      "protocol": "http",
       "settings": {
-        "address": "1.1.1.1",
-        "network": "tcp,udp",
-        "port": 53
+        "userLevel": 8
       },
-      "tag": "dns-in"
+      "tag": "http"
     }
   ],
+  "log": {
+    "loglevel": "warning"
+  },
   "outbounds": [
     {
-      "protocol": "trojan",
-      "settings": {
-        "servers": [
-          {
-            "address": "[2606:4700:3030::6815:5001]",
-            "port": 2096,
-            "password": ")|GBp(tptN_|",
-            "level": 8
-          }
-        ]
-      },
+      "protocol": "vless",
+      "tag": "proxy",
       "streamSettings": {
-        "network": "ws",
+        "grpcSettings": {
+          "authority": "",
+          "multiMode": false,
+          "serviceName": ""
+        },
+        "network": "grpc",
         "security": "tls",
-        "sockopt": {
-          "dialerProxy": "fragment"
-        },
-        "wsSettings": {
-          "host": "ghk--43pm-2eze1ys72uz063xmun69be.pages.dev",
-          "path": "/tryKr8ckJ9xgcEfWtC?ed=2560"
-        },
         "tlsSettings": {
-          "allowInsecure": false,
-          "fingerprint": "randomized",
-          "alpn": [
-            "http/1.1"
-          ],
-          "serverName": "GhK--43Pm-2eze1yS72uz063XMuN69Be.pAges.DEv"
+          "allowInsecure": true,
+          "alpn": [],
+          "fingerprint": "edge",
+          "serverName": "ilovepdf.com"
         }
       },
-      "tag": "proxy"
-    },
-    {
-      "tag": "fragment",
-      "protocol": "freedom",
       "settings": {
-        "fragment": {
-          "packets": "tlshello",
-          "length": "100-200",
-          "interval": "1-1"
-        },
-        "domainStrategy": "UseIPv4v6"
+        "vnext": [
+          {
+            "address": "clud.iranhttp.com",
+            "port": 2096,
+            "users": [
+              {
+                "encryption": "none",
+                "id": "198211cf-3cc2-49b1-90c0-b046e781250c",
+                "level": 8
+              }
+            ]
+          }
+        ]
       }
     },
     {
-      "protocol": "dns",
-      "tag": "dns-out"
-    },
-    {
       "protocol": "freedom",
       "settings": {
-        "domainStrategy": "UseIP"
+        "domainStrategy": "AsIs",
+        "noises": [],
+        "redirect": ""
       },
       "tag": "direct"
     },
@@ -126,49 +105,16 @@
       }
     },
     "system": {
-      "statsOutboundUplink": true,
-      "statsOutboundDownlink": true
+      "statsOutboundDownlink": true,
+      "statsOutboundUplink": true
     }
   },
+  "remarks": "( 🇩🇪 ) Germany/534108646_65e6/50.00GB📊/29D,23H⏳",
   "routing": {
-    "domainStrategy": "IPIfNonMatch",
+    "domainStrategy": "AsIs",
     "rules": [
       {
-        "inboundTag": [
-          "dns-in"
-        ],
-        "outboundTag": "dns-out",
-        "type": "field"
-      },
-      {
-        "inboundTag": [
-          "socks-in"
-        ],
-        "port": 53,
-        "outboundTag": "dns-out",
-        "type": "field"
-      },
-      {
-        "inboundTag": [
-          "remote-dns"
-        ],
-        "outboundTag": "proxy",
-        "type": "field"
-      },
-      {
-        "inboundTag": [
-          "dns"
-        ],
-        "outboundTag": "direct",
-        "type": "field"
-      },
-      {
-        "network": "udp",
-        "outboundTag": "block",
-        "type": "field"
-      },
-      {
-        "network": "tcp",
+        "network": "tcp,udp",
         "outboundTag": "proxy",
         "type": "field"
       }
